@@ -199,6 +199,21 @@ impl PgnLibrary {
         self.pgns.get(&pgn)
     }
 
+        pub fn hash_of_canid_signals(&self) -> HashMap<u32, Vec<&str>> {
+        let mut hash = HashMap::new();
+        for can_frame in self.pgns.iter() {
+            let canid = can_frame.1.pgn_long;
+            let mut can_signals_names = Vec::new();
+            for can_signal in can_frame.1.spns.iter() {
+                can_signals_names.push(can_signal.1.name.as_str());
+            }
+            hash.insert(canid, can_signals_names);
+        }
+
+
+        hash
+    }
+
     /// Returns a `SpnDefinition` entry reference, if it exists.
     pub fn get_spn(&self, name: &str) -> Option<&SpnDefinition> {
         self.pgns
